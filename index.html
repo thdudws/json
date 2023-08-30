@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>우리반 학생</title>
+
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.7.0.min.js"></script>
+
+    <script>
+    $(function () {
+        $.ajax({
+          url:"./class_s01.json",
+          dataType:"json",
+          success: function(data){
+            if(data.length>0){
+                const td =$("<table/>");
+
+                for(var i in data){
+                    let $id=data[i].id;
+                    let $name=data[i].name;
+                    let $team=data[i].text;
+
+                    let row=$("<tr/>").append(
+                        $("<td/>").text($id),
+                        $("<td/>").text($name),
+                        $("<td/>").text($team),
+                    );
+                    td.append(row);
+                }
+                $(".wrap").append(td);
+            }
+          }
+        });
+    });
+
+</script>
+
+</head>
+<body>
+
+    <div class="wrap"></div>
+
+    <input id="myInput" type="text" placeholder="Search..">
+
+    <script>
+        $("#myInput").on("keyup",function(){
+            let value=$(this).val();
+            $(".wrap tr td:nth-of-type(2)").filter(function(){
+                $(this).parent().toggle($(this).text().toLowerCase().indexOf(value)>-1)
+            });
+        });
+    </script>
+
+
+</body>
+</html>
